@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html>
+<head><title>Dashboard</title></head>
+<body>
+<h2>Welcome {{ user.first_name }}</h2>
+<p>Balance: {{ user.balance }}</p>
+
+<h3>Deposit</h3>
+<form method="POST">
+  <input type="hidden" name="action" value="deposit">
+  Amount: <input type="number" name="amount"><br>
+  <input type="submit" value="Deposit">
+</form>
+
+<h3>Withdraw</h3>
+<form method="POST">
+  <input type="hidden" name="action" value="withdraw">
+  Amount: <input type="number" name="amount"><br>
+  <input type="submit" value="Withdraw">
+</form>
+
+<h3>Transfer</h3>
+<form method="POST">
+  <input type="hidden" name="action" value="transfer">
+  Receiver Email: <input type="email" name="receiver_email"><br>
+  Amount: <input type="number" name="amount"><br>
+  <input type="submit" value="Transfer">
+</form>
+
+<h3>All Users</h3>
+<ul>
+{% for u in users %}
+<li>{{ u.first_name }} {{ u.last_name }} - {{ u.balance }}</li>
+{% endfor %}
+</ul>
+
+<a href="/">Logout</a>
+</body>
+</html>
+
+</body>
+</html>
