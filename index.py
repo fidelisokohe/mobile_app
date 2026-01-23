@@ -42,16 +42,6 @@ def login():
                 return redirect(url_for("dashboard", email=email))
         return "Invalid email or password!"
     return render_template("login.html")
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-        for user in users:
-            if user["email"] == email and user["password"] == password:
-                return redirect(url_for("dashboard", email=email))
-        return "Invalid email or password!"
-    return render_template("login.html")
 
 @app.route("/dashboard/<email>", methods=["GET", "POST"])
 def dashboard(email):
@@ -87,6 +77,6 @@ def delete():
     return render_template("delete.html")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=4000)
 
             
