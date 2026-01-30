@@ -43,29 +43,33 @@ def login():
         return "Invalid email or password!"
     return render_template("login.html")
 
-@app.route("/dashboard/<email>", methods=["GET", "POST"])
-def dashboard(email):
-    user = next((u for u in users if u["email"] == email), None)
-    if not user:
-        return "User not found!"
+@app.route("/dashboard", methods=["GET", "POST"])
+def dashboard():
+    if len(users) == 0:
+        return "No users registered"
+
+    user = users[0]
 
     if request.method == "POST":
         action = request.form["action"]
         amount = float(request.form.get("amount", 0))
-        receiver_email = request.form.get("receiver_email")
-        
+
         if action == "deposit":
             user["balance"] += amount
+
         elif action == "withdraw":
             if amount <= user["balance"]:
                 user["balance"] -= amount
-        elif action == "transfer":
-            receiver = next((u for u in users if u["email"] == receiver_email), None)
-            if receiver and amount <= user["balance"]:
-                user["balance"] -= amount
-                receiver["balance"] += amount
-    return render_template("dashboard.html", user=user, users=users)
 
+        elif action == "transfer":
+            receiver_email = request.form["receiver_email"]
+            for u in users:
+                if u["email"] == receiver_email:
+                    if amount <= user["balance"]:
+                        user["balance"] -= amount
+                        u["balance"] += amount
+
+    return render_template("dashboard.html", user=user, users=users)
 @app.route("/delete", methods=["GET", "POST"])
 def delete():
     if request.method == "POST":
